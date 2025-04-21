@@ -5,7 +5,7 @@ A simple yet efficient playtime tracking system for your Minecraft server built 
 ## Features
 - Tracks playtime for each player.
 - Saves player data persistently.
-- Command /playtime <player> Check players or your own playtime!
+- Command /playtime (args) Check players or your own playtime!
 - Allows the server to display the total playtime of each player.
 
 ## Something Else?
