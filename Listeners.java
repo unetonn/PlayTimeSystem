@@ -42,7 +42,9 @@ public class Listeners implements Listener {
 }
 
 
-    /*public static void updateScoreboard(Player player, JavaPlugin plugin) {
+    /*
+    
+    public static void updateScoreboard(Player player, JavaPlugin plugin) {
         if (ScoreboardUtils.titleTask == null) {
             ScoreboardUtils.startTitleScheduler();
         }
@@ -52,20 +54,21 @@ public class Listeners implements Listener {
     // Update scoreboard with the correct playtime from config
     // updateScoreboard(player, Playtime.getInstance());
 
-    public void onJoiasdn(PlayerJoinEvent event) {
+    public void onJoin(PlayerJoinEvent event) {
         Player player = event.getPlayer();
         if (!plugin.getConfig().contains("hour." + player.getUniqueId())) {
             plugin.getConfig().set("hour." + player.getUniqueId(), 0);
             plugin.getConfig().set("minute." + player.getUniqueId(), 0);
             plugin.saveConfig();
         }
-
     }
-    public void onQuitasd(PlayerQuitEvent e) {
+    
+    public void onQuit(PlayerQuitEvent e) {
         Player player = e.getPlayer();
         UUID uuid = player.getUniqueId();
         int playtime = playTimes.getOrDefault(uuid, 0);
         playTimes.put(uuid, playtime);
         ConfigManager.get().set("player-playtime." + uuid, playtime);
     }
+    
      */
