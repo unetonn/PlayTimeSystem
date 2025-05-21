@@ -20,25 +20,30 @@ public class PlaytimeCommand implements CommandExecutor, TabCompleter {
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
-        Player player = (Player) sender;
+        if (!(sender instanceof Player player)) {
+            sender.sendMessage(ColorUtils.colorize("&cSorry, mortal console. This command is for living players only!"));
+            return true;
+        }
+
         UUID playerId = player.getUniqueId();
-        int playtime = ConfigManager.playTimes.getOrDefault(playerId, 0);
+        int playtime = playTimes.getOrDefault(playerId, 0);
 
         if (args.length == 0) {
-            player.sendMessage(ColorUtils.colorize("&aYour total playtime is: " + ConfigManager.formatPlaytime(playtime)));
-
-        } else if (args.length == 1) {
-
-            Player target = Bukkit.getPlayer(args[0]);
-            if (target != null && target.isOnline()) {
-                UUID targetId = target.getUniqueId();
-                int targetPlaytime = ConfigManager.playTimes.getOrDefault(targetId, 0);
-                player.sendMessage(ColorUtils.colorize("&6" + target.getName() + "'s &7total playtime is: " + ConfigManager.formatPlaytime(targetPlaytime)));
-
-            } else {
-                player.sendMessage(ColorUtils.colorize("&c&lERROR: &7Player not found or is offline."));
-            }
+            player.sendMessage(ColorUtils.colorize("&eYour total playtime &a" + ConfigManager.formatPlaytime(playtime)));
+            return true;
         }
+
+        Player target = Bukkit.getPlayer(args[0]);
+        if (target != null && target.isOnline()) {
+            UUID targetId = target.getUniqueId();
+            int targetPlaytime = playTimes.getOrDefault(targetId, 0);
+            player.sendMessage(ColorUtils.colorize("&e" + target.getName() + "'s &aplaytime " + ConfigManager.formatPlaytime(targetPlaytime)));
+            return true;
+
+        } else {
+            player.sendMessage(ColorUtils.colorize("&c&lWHO?! &7Couldn't find username '" + args[0] + "' such username!"));
+        }
+
         return true;
     }
 
