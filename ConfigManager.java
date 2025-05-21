@@ -16,7 +16,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class ConfigManager {
 
-    public static Map<UUID, Integer> playTimes = new ConcurrentHashMap<>();
+    public static Map<UUID, Integer> playTimes = new HashMap<>();
     private static FileConfiguration config;
     private static File configFile;
 
@@ -25,7 +25,7 @@ public class ConfigManager {
         if (!configFile.exists()) {
             plugin.saveResource("config.yml", false); // Make sure this file is in the correct location
         }
-        reload(); // this class reload method
+        reload();
     }
 
     public static void reload() {
@@ -58,7 +58,7 @@ public class ConfigManager {
         }
     }
 
-    public static void loadAll() {
+    public static void load() {
         FileConfiguration config = ConfigManager.get();
         if (config == null) {
             Bukkit.getLogger().warning("Failed to load configuration. Configuration is null.");
@@ -66,6 +66,7 @@ public class ConfigManager {
         }
 
         loadPlayerData(config, playTimes);
+        loadSpawnLocation(config);
         saveSpawnLocation(config);
     }
 
@@ -113,6 +114,17 @@ public class ConfigManager {
         } catch (Exception e) {
             Bukkit.getLogger().severe("failed to save spawn location :(");
             e.printStackTrace();
+        }
+    }
+
+    private static void loadSpawnLocation(FileConfiguration config) {
+        Location l = getSpawnLocation();
+        if (l != null) {
+            String world = l.getWorld().getName();
+            double x = l.getX();
+            double y = l.getY();
+            double z = l.getZ();
+            Bukkit.getLogger().info("Server-spawn location: " + world + " (" + x + ", " + y + ", " + z + ")");
         }
     }
 
